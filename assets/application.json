@@ -4,19 +4,133 @@
   "slug": "banco-inter-boleto-pix",
   "type": "external",
   "state": "active",
-  "paid": true,
+  "paid": false,
   "authentication": true,
   "modules": {
     "list_payments": {
       "enabled": true,
-      "endpoint": "https://us-central1-bancointer-ecomplus.cloudfunctions.net/ecomplus-banco-inter/ecom/modules/list-payments"
+      "endpoint": "https://us-central1-bancointer-ecomplus.cloudfunctions.net/bancointer/ecom/modules/list-payments"
     },
     "create_transaction": {
       "enabled": true,
-      "endpoint": "https://us-central1-bancointer-ecomplus.cloudfunctions.net/ecomplus-banco-inter/ecom/modules/create-transaction"
+      "endpoint": "https://us-central1-bancointer-ecomplus.cloudfunctions.net/bancointer/ecom/modules/create-transaction"
     }
   },
- 
+ "admin_settings": {
+    "sandbox": {
+      "schema": {
+        "type": "boolean",
+        "default": true,
+        "title": "Modo Sandbox",
+        "description": "Ativar para testes (sandbox) ou desativar para produção"
+      },
+      "hide": false
+    },
+    "conta_corrente": {
+      "schema": {
+        "type": "string",
+        "maxLength": 20,
+        "title": "Conta Corrente",
+        "description": "Número da conta corrente no Banco Inter"
+      },
+      "hide": false
+    },
+    "client_id": {
+      "schema": {
+        "type": "string",
+        "maxLength": 100,
+        "title": "Client ID",
+        "description": "Client ID fornecido pelo Banco Inter"
+      },
+      "hide": false
+    },
+    "client_secret": {
+      "schema": {
+        "type": "string",
+        "maxLength": 100,
+        "title": "Client Secret",
+        "description": "Client Secret fornecido pelo Banco Inter"
+      },
+      "hide": true
+    },
+    "certificate_content": {
+      "schema": {
+        "type": "string",
+        "format": "textarea",
+        "title": "Conteúdo do Certificado (.crt)",
+        "description": "Cole aqui o conteúdo completo do arquivo .crt fornecido pelo Banco Inter"
+      },
+      "hide": true
+    },
+    "private_key_content": {
+      "schema": {
+        "type": "string",
+        "format": "textarea", 
+        "title": "Chave Privada (.key)",
+        "description": "Cole aqui o conteúdo completo do arquivo .key fornecido pelo Banco Inter"
+      },
+      "hide": true
+    },
+    "pix_enabled": {
+      "schema": {
+        "type": "boolean",
+        "default": true,
+        "title": "PIX Habilitado",
+        "description": "Habilitar pagamentos via PIX"
+      },
+      "hide": false
+    },
+    "boleto_enabled": {
+      "schema": {
+        "type": "boolean", 
+        "default": true,
+        "title": "Boleto Habilitado",
+        "description": "Habilitar pagamentos via Boleto com PIX"
+      },
+      "hide": false
+    },
+    "pix_automatico_enabled": {
+      "schema": {
+        "type": "boolean",
+        "default": false,
+        "title": "PIX Automático Habilitado",
+        "description": "Habilitar PIX Automático (recorrência)"
+      },
+      "hide": false
+    },
+    "pix_discount": {
+      "schema": {
+        "type": "number",
+        "minimum": 0,
+        "maximum": 99,
+        "default": 0,
+        "title": "Desconto PIX (%)",
+        "description": "Percentual de desconto para pagamentos via PIX"
+      },
+      "hide": false
+    },
+    "boleto_fee": {
+      "schema": {
+        "type": "number",
+        "minimum": 0,
+        "default": 0,
+        "title": "Taxa do Boleto (R$)",
+        "description": "Taxa fixa cobrada para pagamentos via boleto"
+      },
+      "hide": false
+    },
+    "boleto_days": {
+      "schema": {
+        "type": "integer",
+        "minimum": 1,
+        "maximum": 60,
+        "default": 5,
+        "title": "Dias para Vencimento",
+        "description": "Número de dias para vencimento do boleto"
+      },
+      "hide": false
+    }
+  },
   "auth_scope": {
     "stores/me": [
       "GET"
@@ -43,7 +157,7 @@
     "products/price": [],
     "products/variations/price": []
   },
-  "auth_callback_uri": "https://us-central1-bancointer-ecomplus.cloudfunctions.net/ecomplus-banco-inter/ecom/auth-callback",
+  "auth_callback_uri": "https://us-central1-bancointer-ecomplus.cloudfunctions.net/bancointer/ecom/auth-callback",
   
   "version": "1.0.0"
 }
