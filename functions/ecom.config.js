@@ -6,14 +6,9 @@
  */
 
 const app = {
-  app_id: 9000,
-<<<<<<< HEAD
+  app_id: 9999,
   title: 'Banco Inter (Boleto e Pix)',
   slug: 'banco-inter-boleto-pix',
-=======
-  title: 'My Awesome E-Com Plus App',
-  slug: 'my-awesome-app',
->>>>>>> 6eb19cbd026dc72af300269eb14ea90e6458a0eb
   type: 'external',
   state: 'active',
   authentication: true,
@@ -39,21 +34,13 @@ const app = {
      * Triggered when listing payments, must return available payment methods.
      * Start editing `routes/ecom/modules/list-payments.js`
      */
-<<<<<<< HEAD
     list_payments:        { enabled: true },
-=======
-    // list_payments:        { enabled: true },
->>>>>>> 6eb19cbd026dc72af300269eb14ea90e6458a0eb
 
     /**
      * Triggered when order is being closed, must create payment transaction and return info.
      * Start editing `routes/ecom/modules/create-transaction.js`
      */
-<<<<<<< HEAD
     create_transaction:   { enabled: true },
-=======
-    // create_transaction:   { enabled: true },
->>>>>>> 6eb19cbd026dc72af300269eb14ea90e6458a0eb
   },
 
   /**
@@ -95,15 +82,9 @@ const app = {
       // 'DELETE',        // Delete customers
     ],
     orders: [
-<<<<<<< HEAD
       'GET',           // List/read orders with public and private fields
       'PATCH',         // Edit orders
       // 'POST',          // Create orders
-=======
-      // 'GET',           // List/read orders with public and private fields
-      // 'POST',          // Create orders
-      // 'PATCH',         // Edit orders
->>>>>>> 6eb19cbd026dc72af300269eb14ea90e6458a0eb
       // 'PUT',           // Overwrite orders
       // 'DELETE',        // Delete orders
     ],
@@ -124,13 +105,8 @@ const app = {
       // 'DELETE',        // Delete fulfillment event
     ],
     'orders/payments_history': [
-<<<<<<< HEAD
       'GET',           // List/read order payments history events
       'POST',          // Create payments history entry with new status
-=======
-      // 'GET',           // List/read order payments history events
-      // 'POST',          // Create payments history entry with new status
->>>>>>> 6eb19cbd026dc72af300269eb14ea90e6458a0eb
       // 'DELETE',        // Delete payments history entry
     ],
 
@@ -163,7 +139,6 @@ const app = {
 
   admin_settings: {
     /**
-<<<<<<< HEAD
      * Configurações do Banco Inter
      */
     
@@ -280,39 +255,97 @@ const app = {
         description: 'Número de dias para vencimento do boleto (1 a 60 dias)'
       },
       hide: false
+    },
+
+    // Configurações adicionais
+    pix_key: {
+      schema: {
+        type: 'string',
+        maxLength: 77,
+        title: 'Chave PIX',
+        description: 'Chave PIX da conta (CPF, CNPJ, email, telefone ou chave aleatória)'
+      },
+      hide: false
+    },
+
+    pix_due_days: {
+      schema: {
+        type: 'integer',
+        minimum: 0,
+        maximum: 30,
+        default: 0,
+        title: 'PIX com Vencimento',
+        description: 'Dias para vencimento do PIX (0 = PIX imediato apenas)'
+      },
+      hide: false
+    },
+
+    pix_expiration: {
+      schema: {
+        type: 'integer',
+        minimum: 300,
+        maximum: 86400,
+        default: 3600,
+        title: 'Expiração PIX (segundos)',
+        description: 'Tempo de expiração para PIX imediato em segundos (padrão: 1 hora)'
+      },
+      hide: false
+    },
+
+    min_amount: {
+      schema: {
+        type: 'number',
+        minimum: 2.5,
+        default: 2.5,
+        title: 'Valor Mínimo',
+        description: 'Valor mínimo para aceitar pagamentos'
+      },
+      hide: false
+    },
+
+    max_amount: {
+      schema: {
+        type: 'number',
+        maximum: 99999999.99,
+        default: 99999999.99,
+        title: 'Valor Máximo',
+        description: 'Valor máximo para aceitar pagamentos'
+      },
+      hide: false
+    },
+
+    boleto_discount: {
+      schema: {
+        type: 'number',
+        minimum: 0,
+        maximum: 99,
+        title: 'Desconto Boleto (%)',
+        description: 'Percentual de desconto para pagamento antecipado do boleto'
+      },
+      hide: false
+    },
+
+    boleto_multa: {
+      schema: {
+        type: 'number',
+        minimum: 0,
+        maximum: 10,
+        title: 'Multa Boleto (%)',
+        description: 'Percentual de multa por atraso no pagamento'
+      },
+      hide: false
+    },
+
+    boleto_mora: {
+      schema: {
+        type: 'number',
+        minimum: 0,
+        maximum: 5,
+        title: 'Mora Boleto (% ao mês)',
+        description: 'Percentual de juros por atraso (ao mês)'
+      },
+      hide: false
     }
-=======
-     * JSON schema based fields to be configured by merchant and saved to app `data` / `hidden_data`, such as:
-
-     webhook_uri: {
-       schema: {
-         type: 'string',
-         maxLength: 255,
-         format: 'uri',
-         title: 'Notifications URI',
-         description: 'Unique notifications URI available on your Custom App dashboard'
-       },
-       hide: true
-     },
-     token: {
-       schema: {
-         type: 'string',
-         maxLength: 50,
-         title: 'App token'
-       },
-       hide: true
-     },
-     opt_in: {
-       schema: {
-         type: 'boolean',
-         default: false,
-         title: 'Some config option'
-       },
-       hide: false
-     },
-
-     */
->>>>>>> 6eb19cbd026dc72af300269eb14ea90e6458a0eb
   }
 }
 
@@ -325,10 +358,7 @@ const procedures = []
 
 /**
  * Uncomment and edit code above to configure `triggers` and receive respective `webhooks`:
-<<<<<<< HEAD
  */
-=======
->>>>>>> 6eb19cbd026dc72af300269eb14ea90e6458a0eb
 
 const { baseUri } = require('./__env')
 
@@ -343,47 +373,10 @@ procedures.push({
     },
 
     // Receive notifications when order financial/fulfillment status are set or changed:
-<<<<<<< HEAD
     {
       resource: 'orders',
       field: 'financial_status',
     }
-=======
-    // Obs.: you probably SHOULD NOT enable the orders triggers below and the one above (create) together.
-    {
-      resource: 'orders',
-      field: 'financial_status',
-    },
-    {
-      resource: 'orders',
-      field: 'fulfillment_status',
-    },
-
-    // Receive notifications when products/variations stock quantity changes:
-    {
-      resource: 'products',
-      field: 'quantity',
-    },
-    {
-      resource: 'products',
-      subresource: 'variations',
-      field: 'quantity'
-    },
-
-    // Receive notifications when cart is edited:
-    {
-      resource: 'carts',
-      action: 'change',
-    },
-
-    // Receive notifications when customer is deleted:
-    {
-      resource: 'customers',
-      action: 'delete',
-    },
-
-    // Feel free to create custom combinations with any Store API resource, subresource, action and field.
->>>>>>> 6eb19cbd026dc72af300269eb14ea90e6458a0eb
   ],
 
   webhooks: [
@@ -398,10 +391,7 @@ procedures.push({
   ]
 })
 
-<<<<<<< HEAD
 /**
-=======
->>>>>>> 6eb19cbd026dc72af300269eb14ea90e6458a0eb
  * You may also edit `routes/ecom/webhook.js` to treat notifications properly.
  */
 
