@@ -9,8 +9,7 @@
     "serve": "sh ./serve.sh",
     "deploy": "NODE_ENV=production node ./scripts/firebase-deploy.js",
     "release": "standard-version",
-    "release:starter": "standard-version --prerelease starter",
-    "publish:market": "node ./scripts/market-publication.js"
+    "release:starter": "standard-version --prerelease starter"
   },
   "repository": {
     "type": "git",
