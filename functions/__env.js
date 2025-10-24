@@ -7,7 +7,7 @@ if (!projectId && FIREBASE_CONFIG) {
   projectId = JSON.parse(FIREBASE_CONFIG).projectId
 }
 const region = FUNCTION_REGION || 'us-central1'
-const functionName = server.functionName || 'app'
+const functionName = (server && server.functionName) || 'ecomplus-banco-inter'
 
 module.exports = {
   functionName,
@@ -15,7 +15,5 @@ module.exports = {
   baseUri: (server && server.base_uri) ||
     `https://${region}-${projectId}.cloudfunctions.net/${functionName}`,
   hostingUri: `https://${projectId}.web.app`,
-  pkg: {
-    ...pkg
-  }
+  pkg: pkg || {}
 }
