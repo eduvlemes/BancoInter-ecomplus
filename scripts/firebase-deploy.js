@@ -24,7 +24,6 @@ if (SERVER_BASE_URI) {
 client.functions.config.set(config, { project })
   .then(() => client.deploy({
     project,
-    token: FIREBASE_TOKEN,
     force: true
   }))
 

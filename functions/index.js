@@ -137,9 +137,8 @@ console.log(`-- Starting '${app.title}' E-Com Plus app with Function '${function
 
 // schedule update tokens job
 const cron = '25 */3 * * *'
-exports.updateTokens = functions.pubsub.schedule(cron).onRun(() => {
-  return prepareAppSdk().then(appSdk => {
-    return appSdk.updateTokens()
-  })
+exports.updateTokens = functions.pubsub.schedule(cron).onRun(async () => {
+  const appSdk = await prepareAppSdk()
+  return appSdk.updateTokens()
 })
 console.log(`-- Sheduled update E-Com Plus tokens '${cron}'`)
