@@ -7,8 +7,8 @@
 
 const app = {
   app_id: 9000,
-  title: 'My Awesome E-Com Plus App',
-  slug: 'my-awesome-app',
+  title: 'Banco Inter (Boleto e Pix)',
+  slug: 'banco-inter-boleto-pix',
   type: 'external',
   state: 'active',
   authentication: true,
@@ -34,13 +34,13 @@ const app = {
      * Triggered when listing payments, must return available payment methods.
      * Start editing `routes/ecom/modules/list-payments.js`
      */
-    // list_payments:        { enabled: true },
+    list_payments:        { enabled: true },
 
     /**
      * Triggered when order is being closed, must create payment transaction and return info.
      * Start editing `routes/ecom/modules/create-transaction.js`
      */
-    // create_transaction:   { enabled: true },
+    create_transaction:   { enabled: true },
   },
 
   /**
@@ -82,9 +82,9 @@ const app = {
       // 'DELETE',        // Delete customers
     ],
     orders: [
-      // 'GET',           // List/read orders with public and private fields
+      'GET',           // List/read orders with public and private fields
+      'PATCH',         // Edit orders
       // 'POST',          // Create orders
-      // 'PATCH',         // Edit orders
       // 'PUT',           // Overwrite orders
       // 'DELETE',        // Delete orders
     ],
@@ -105,8 +105,8 @@ const app = {
       // 'DELETE',        // Delete fulfillment event
     ],
     'orders/payments_history': [
-      // 'GET',           // List/read order payments history events
-      // 'POST',          // Create payments history entry with new status
+      'GET',           // List/read order payments history events
+      'POST',          // Create payments history entry with new status
       // 'DELETE',        // Delete payments history entry
     ],
 
@@ -139,36 +139,123 @@ const app = {
 
   admin_settings: {
     /**
-     * JSON schema based fields to be configured by merchant and saved to app `data` / `hidden_data`, such as:
-
-     webhook_uri: {
-       schema: {
-         type: 'string',
-         maxLength: 255,
-         format: 'uri',
-         title: 'Notifications URI',
-         description: 'Unique notifications URI available on your Custom App dashboard'
-       },
-       hide: true
-     },
-     token: {
-       schema: {
-         type: 'string',
-         maxLength: 50,
-         title: 'App token'
-       },
-       hide: true
-     },
-     opt_in: {
-       schema: {
-         type: 'boolean',
-         default: false,
-         title: 'Some config option'
-       },
-       hide: false
-     },
-
+     * Configurações do Banco Inter
      */
+    
+    sandbox: {
+      schema: {
+        type: 'boolean',
+        default: true,
+        title: 'Modo Sandbox',
+        description: 'Ativar ambiente de testes (sandbox) do Banco Inter'
+      },
+      hide: false
+    },
+
+    conta_corrente: {
+      schema: {
+        type: 'string',
+        maxLength: 20,
+        title: 'Conta Corrente',
+        description: 'Número da conta corrente no Banco Inter (apenas números)'
+      },
+      hide: false
+    },
+
+    certificado: {
+      schema: {
+        type: 'string',
+        maxLength: 10000,
+        title: 'Certificado (.crt)',
+        description: 'Conteúdo do arquivo de certificado (.crt) fornecido pelo Banco Inter'
+      },
+      hide: true
+    },
+
+    chave_privada: {
+      schema: {
+        type: 'string',
+        maxLength: 10000,
+        title: 'Chave Privada (.key)', 
+        description: 'Conteúdo do arquivo de chave privada (.key) fornecido pelo Banco Inter'
+      },
+      hide: true
+    },
+
+    client_id: {
+      schema: {
+        type: 'string',
+        maxLength: 100,
+        title: 'Client ID',
+        description: 'Client ID para autenticação OAuth2 no Banco Inter'
+      },
+      hide: true
+    },
+
+    client_secret: {
+      schema: {
+        type: 'string',
+        maxLength: 100,
+        title: 'Client Secret',
+        description: 'Client Secret para autenticação OAuth2 no Banco Inter'
+      },
+      hide: true
+    },
+
+    webhook_uri: {
+      schema: {
+        type: 'string',
+        maxLength: 255,
+        format: 'uri',
+        title: 'Webhook URI',
+        description: 'URI para receber notificações do Banco Inter'
+      },
+      hide: true
+    },
+
+    // Configurações de PIX
+    enable_pix: {
+      schema: {
+        type: 'boolean',
+        default: true,
+        title: 'Habilitar PIX',
+        description: 'Permitir pagamentos via PIX'
+      },
+      hide: false
+    },
+
+    enable_pix_auto: {
+      schema: {
+        type: 'boolean',
+        default: false,
+        title: 'Habilitar PIX Automático',
+        description: 'Permitir pagamentos recorrentes via PIX Automático'
+      },
+      hide: false
+    },
+
+    // Configurações de Boleto
+    enable_boleto: {
+      schema: {
+        type: 'boolean',
+        default: true,
+        title: 'Habilitar Boleto',
+        description: 'Permitir pagamentos via Boleto bancário'
+      },
+      hide: false
+    },
+
+    boleto_expire_days: {
+      schema: {
+        type: 'integer',
+        minimum: 1,
+        maximum: 60,
+        default: 7,
+        title: 'Dias para Vencimento',
+        description: 'Número de dias para vencimento do boleto (1 a 60 dias)'
+      },
+      hide: false
+    }
   }
 }
 
@@ -181,6 +268,7 @@ const procedures = []
 
 /**
  * Uncomment and edit code above to configure `triggers` and receive respective `webhooks`:
+ */
 
 const { baseUri } = require('./__env')
 
@@ -195,40 +283,10 @@ procedures.push({
     },
 
     // Receive notifications when order financial/fulfillment status are set or changed:
-    // Obs.: you probably SHOULD NOT enable the orders triggers below and the one above (create) together.
     {
       resource: 'orders',
       field: 'financial_status',
-    },
-    {
-      resource: 'orders',
-      field: 'fulfillment_status',
-    },
-
-    // Receive notifications when products/variations stock quantity changes:
-    {
-      resource: 'products',
-      field: 'quantity',
-    },
-    {
-      resource: 'products',
-      subresource: 'variations',
-      field: 'quantity'
-    },
-
-    // Receive notifications when cart is edited:
-    {
-      resource: 'carts',
-      action: 'change',
-    },
-
-    // Receive notifications when customer is deleted:
-    {
-      resource: 'customers',
-      action: 'delete',
-    },
-
-    // Feel free to create custom combinations with any Store API resource, subresource, action and field.
+    }
   ],
 
   webhooks: [
@@ -243,6 +301,7 @@ procedures.push({
   ]
 })
 
+/**
  * You may also edit `routes/ecom/webhook.js` to treat notifications properly.
  */
 
