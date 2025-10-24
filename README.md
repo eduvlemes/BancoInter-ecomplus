@@ -1,12 +1,64 @@
-# E-Com Plus Application Starter
+# App Banco Inter para E-Com Plus
 
-[![Deploy](https://github.com/ecomplus/application-starter/workflows/Deploy/badge.svg)](https://github.com/ecomplus/application-starter/actions?workflow=Deploy)  [![License MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Deploy](https://github.com/eduvlemes/BancoInter-ecomplus/workflows/Deploy/badge.svg)](https://github.com/eduvlemes/BancoInter-ecomplus/actions?workflow=Deploy)  [![License MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-:dog: Boilerplate for E-Com Plus apps with [Firebase](https://firebase.google.com/) Cloud Functions and GitHub Actions.
+🏦 Integração completa com Banco Inter para E-Com Plus: PIX, Boleto com PIX e PIX Automático.
 
-[CHANGELOG](https://github.com/ecomplus/application-starter/blob/master/CHANGELOG.md)
+## Funcionalidades
 
-## Getting started
+### 💰 Métodos de Pagamento
+- **PIX**: Cobranças imediatas e com vencimento
+- **Boleto com PIX**: Boleto bancário com opção de pagamento via PIX
+- **PIX Automático**: Pagamentos recorrentes (em desenvolvimento)
+
+### 🔧 Recursos Técnicos
+- Autenticação OAuth2 com certificados SSL
+- Webhooks para notificações em tempo real
+- Suporte a ambiente sandbox e produção
+- Interface administrativa completa
+- Tratamento robusto de erros
+
+## Configuração
+
+### Pré-requisitos
+1. Conta no Banco Inter com API habilitada
+2. Certificados SSL (.crt e .key) fornecidos pelo banco
+3. Client ID e Client Secret para OAuth2
+
+### Instalação
+1. Configure o app no painel administrativo da sua loja E-Com Plus
+2. Insira os dados de autenticação:
+   - Client ID e Client Secret
+   - Certificados SSL (conteúdo dos arquivos .crt e .key)
+   - Conta corrente (opcional)
+3. Configure as opções de pagamento desejadas
+4. Teste a conectividade usando o endpoint de teste
+
+## APIs Implementadas
+
+### API PIX (`/pix/v2`)
+- Cobranças imediatas (cob)
+- Cobranças com vencimento (cobv)
+- Lotes de cobrança
+- Locations (QR Code dinâmico)
+- PIX recebidos
+- Devoluções
+- Webhooks
+
+### API Cobrança (`/cobranca/v3`)
+- Emissão de boletos
+- Consulta e listagem
+- Edição de cobranças
+- Cancelamento
+- PDF do boleto
+- Sumário de cobranças
+
+### API PIX Automático (`/pix-automatico/v1`) - Em desenvolvimento
+- Recorrências
+- Solicitações de confirmação
+- Cobranças recorrentes
+
+## Estrutura do Projeto
 
 1. Start creating a [Firebase project](https://console.firebase.google.com/):
     - Analytics is not needed;

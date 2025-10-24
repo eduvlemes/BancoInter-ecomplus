@@ -1,7 +1,7 @@
 {
   "app": {
-    "title": "",
-    "short_description": "",
-    "category": "tools"
+    "title": "Banco Inter (Boleto e Pix)",
+    "short_description": "Integração completa com Banco Inter: PIX, Boleto com PIX e PIX Automático para sua loja E-Com Plus",
+    "category": "sales"
   }
 }
