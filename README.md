@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # App Banco Inter para E-Com Plus
 
 [![Deploy](https://github.com/eduvlemes/BancoInter-ecomplus/workflows/Deploy/badge.svg)](https://github.com/eduvlemes/BancoInter-ecomplus/actions?workflow=Deploy)  [![License MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
@@ -59,6 +60,17 @@
 - Cobranças recorrentes
 
 ## Estrutura do Projeto
+=======
+# E-Com Plus Application Starter
+
+[![Deploy](https://github.com/ecomplus/application-starter/workflows/Deploy/badge.svg)](https://github.com/ecomplus/application-starter/actions?workflow=Deploy)  [![License MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
+:dog: Boilerplate for E-Com Plus apps with [Firebase](https://firebase.google.com/) Cloud Functions and GitHub Actions.
+
+[CHANGELOG](https://github.com/ecomplus/application-starter/blob/master/CHANGELOG.md)
+
+## Getting started
+>>>>>>> 6eb19cbd026dc72af300269eb14ea90e6458a0eb
 
 1. Start creating a [Firebase project](https://console.firebase.google.com/):
     - Analytics is not needed;
